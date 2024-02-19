@@ -14,17 +14,7 @@ import colors from "colors";
 // export default connectionDB;
 
 
-import { MongoClient, ServerApiVersion } from'mongodb';
 const uri = "mongodb+srv://AbdelrahmanMamdouh:mongo@abdelrahmanmamdouh.pao3pnm.mongodb.net/onlineDoc?retryWrites=true&w=majority";
-
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-// const client = new MongoClient(uri, {
-//   serverApi: {
-//     version: ServerApiVersion.v1,
-//     strict: true,
-//     deprecationErrors: true,
-//   }
-// });
 
  const connectionDB = async () => {
     try {
