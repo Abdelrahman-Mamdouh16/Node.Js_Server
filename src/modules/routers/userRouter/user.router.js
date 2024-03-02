@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { UserLogin, UserRegister, userDetails } from "../../controller/userController/user.controller.js";
+import { UpdatePass, UserLogin, UserRegister, userDetails } from "../../controller/userController/user.controller.js";
 import { authMiddleware } from "../../../Middlewares/auth.middleware.js";
 
 
@@ -15,6 +15,6 @@ router.post("/login", UserLogin);
 router.post('/userDetails/:id',authMiddleware,userDetails)
 
 // user Details
-router.get('/userDetails/:id',authMiddleware,userDetails)
+router.patch('/userAccount/UpdatePass/:id',UpdatePass)
 
 export default router;

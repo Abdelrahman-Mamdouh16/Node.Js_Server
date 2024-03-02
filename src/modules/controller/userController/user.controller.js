@@ -54,3 +54,37 @@ export const userDetails = async (req, res) => {
         return res.json({ success: false, message: `authentication error : ${error}` })
     }
 };
+
+
+export const UpdatePass = async (req, res) => {
+    try {
+        // Find user by ID
+        const user = await userModel.findById(req.params.id);
+        if (!user) {
+            return res.json({ success: false, message: 'user not found' })
+        } else {
+            if (user.password !== req.body.oldPassword) {
+                return res.json({ success: false, message: 'user password is not correct' });
+            } else {
+                // const newPass = await user.updateOne({ password: req.body.newPassword })
+                const newPass = req.body.newPassword
+                if (!newPass || newPass.length < 6) {
+                    return res.json({ success: false, message: 'user password is not Updated & must be at least 6 numbers' })
+                } else {
+                    if (req.body.newPassword == req.body.oldPassword) {
+                        return res.json({ success: false, message: 'The new password must be different' })
+                    } else {
+                        await user.updateOne({ password: req.body.newPassword })
+                        await user.save()
+                        return res.json({ success: true, message: 'user password is Update successfully' })
+                    }
+                };
+            }
+        }
+    }
+    // Validate old password using a comparison function
+    catch (error) {
+        console.error(error);
+        return res.json({ success: false, message: `Internal server error ${error}` });
+    }
+};
