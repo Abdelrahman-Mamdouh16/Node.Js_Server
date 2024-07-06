@@ -161,7 +161,7 @@ export const createReservation = async (req, res) => {
                     <p>- Doctor: ${doctor.name}</p>
                     <p>- Date: ${reservation.date}</p>
                     <p>- Time: ${reservation.timeStart} - ${reservation.timeEnd}</p>
-                    <h3>first-come , required Reservation , first-served</h3>
+                    <h3>first-come  , first-served</h3>
                     <p>Thank you for choosing our services!</p>
                     Sincerely,
                     The Booking Team of Online Doctor app 
