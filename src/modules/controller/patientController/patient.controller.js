@@ -1,4 +1,4 @@
-import userModel from "../../../../DB/models/userModel/user.model.js";
+import userModel from "../../../../DB/models/patientModel/patient.model.js";
 import jwt from 'jsonwebtoken'
 
 // user register
@@ -47,7 +47,7 @@ export const userDetails = async (req, res) => {
         if (!user) {
             return res.json({ success: false, message: 'user not found' })
         } else {
-            return res.json({ success: true, message: 'user found successfully', result: user })
+            return res.json({ success: true, message: 'user is found successfully', result: user })
         }
     } catch (error) {
         console.log(error);
@@ -55,7 +55,7 @@ export const userDetails = async (req, res) => {
     }
 };
 
-
+// UpdatePassword for user Details
 export const UpdatePass = async (req, res) => {
     try {
         // Find user by ID
@@ -88,3 +88,4 @@ export const UpdatePass = async (req, res) => {
         return res.json({ success: false, message: `Internal server error ${error}` });
     }
 };
+
