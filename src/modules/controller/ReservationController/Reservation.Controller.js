@@ -216,7 +216,10 @@ export const deleteReservation = async (req, res) => {
         if (!reservation) {
             return res.json({ success: false, message: 'Reservation not found' });
         }
-
+        if (reservation.status == 'deleted') {
+            return res.json({ success: false, message: 'Reservation not found' });
+            
+        }
         reservation.status = 'deleted';
         return res.json({ success: true, message: 'Reservation deleted successfully', result: reservation });
 
