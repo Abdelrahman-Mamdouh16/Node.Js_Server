@@ -1,11 +1,15 @@
 import { Router } from "express";
-import { checkReservation, createReservation } from "../../controller/ReservationController/Reservation.Controller.js";
+import { checkReservation, createReservation, deleteReservation, getAllReservation } from "../../controller/ReservationController/Reservation.Controller.js";
 
 const router=Router();
 
-// create create Reservation
-router.post('/checkReservation', checkReservation)
-// create create Reservation
-router.post('/create', createReservation)
+//  check Reservation
+router.post('/checkReservation', checkReservation);
+// create Reservation
+router.post('/create', createReservation);
+//  Get all Reservation
+router.post('/getAllReservation/:userId', getAllReservation);
+//  Get all Reservation
+router.delete('/deleteReservation/:_Id', deleteReservation);
 
 export default router;

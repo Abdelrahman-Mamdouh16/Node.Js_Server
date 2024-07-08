@@ -8,13 +8,14 @@ import nodemailer from 'nodemailer';
 export const checkReservation = async (req, res) => {
     try {
         // console.log(req.body);
-        const { doctorId, userId, date, timeStart, timeEnd } = req.body;
+        const { doctorId, userId, date, timeStart, timeEnd,status } = req.body;
         const reservation = await ReservationModel.findOne({
             userId,
             doctorId,
             date,
             timeStart,
             timeEnd,
+            status
         });
         // console.log(reservation);
         if (!reservation) {
@@ -171,8 +172,8 @@ export const createReservation = async (req, res) => {
 </body>
 </html>
 `
-            
-                    , // html body
+
+            , // html body
         });
 
         return res.json({ success: true, message: 'Reservation created successfully' });
@@ -182,3 +183,46 @@ export const createReservation = async (req, res) => {
     }
 };
 
+export const getAllReservation = async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const reservations = await ReservationModel.find({ userId });
+
+        if (!reservations) {
+            return res.json({ success: false, message: 'Reservation not found' });
+        }
+
+        const reservationsWithDoctorDataPromises = reservations.map(async (reservation) => {
+            const doctor = await DocModel.findById(reservation.doctorId);
+            const { name, description, area, city } = doctor
+            return { reservation, doctorData: { name, description, area, city } };
+        });
+
+        const reservationsWithDoctorData = await Promise.all(reservationsWithDoctorDataPromises);
+
+        return res.json({ success: true, message: 'Reservation found successfully', result: reservationsWithDoctorData });
+    } catch (error) {
+        console.error(error);
+        return res.json({ success: false, message: `Internal server error :${error}` });
+    }
+};
+
+export const deleteReservation = async (req, res) => {
+    try {
+        // console.log(req);
+        const { _Id } = req.params;
+        const reservation = await ReservationModel.findById( _Id );
+        // console.log(reservation);
+        if (!reservation) {
+            return res.json({ success: false, message: 'Reservation not found' });
+        }
+
+        reservation.status = 'deleted';
+        return res.json({ success: true, message: 'Reservation deleted successfully', result: reservation });
+
+
+    } catch (error) {
+        console.error(error);
+        return res.json({ success: false, message: `Internal server error :${error}` });
+    }
+}
