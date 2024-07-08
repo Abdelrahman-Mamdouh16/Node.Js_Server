@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { checkReservation, createReservation, deleteReservation, getAllReservation } from "../../controller/ReservationController/Reservation.Controller.js";
+import { checkReservation, createReservation, deleteReservation, getAllReservation, getAppointmentById } from "../../controller/ReservationController/Reservation.Controller.js";
 
 const router=Router();
 
@@ -9,7 +9,9 @@ router.post('/checkReservation', checkReservation);
 router.post('/create', createReservation);
 //  Get all Reservation
 router.post('/getAllReservation/:userId', getAllReservation);
-//  Get all Reservation
-router.delete('/deleteReservation/:_Id', deleteReservation);
+//  Get Reservation by id
+router.post('/getAppointment/:_id', getAppointmentById);
+//  delete  Reservation
+router.delete('/deleteReservation/:_id', deleteReservation);
 
 export default router;

@@ -206,12 +206,34 @@ export const getAllReservation = async (req, res) => {
         return res.json({ success: false, message: `Internal server error :${error}` });
     }
 };
+export const getAppointmentById = async (req, res) => {
+    try {
+        const { _id } = req.params;
+        console.log(_id);
+        const reservation = await ReservationModel.findById(_id );
+
+        if (!reservation) {
+            return res.json({ success: false, message: 'Reservation not found' });
+        }
+        // const reservationsWithDoctorDataPromises = reservation.map(async (reservation) => {
+            const doctor = await DocModel.findById(reservation.doctorId);
+            const { name, description, area, city } = doctor
+            // return ;
+        // });
+
+        const reservationsWithDoctorData = { reservation, doctorData: { name, description, area, city } };
+        return res.json({ success: true, message: 'Reservation found successfully', result: reservationsWithDoctorData });
+    } catch (error) {
+        console.error(error);
+        return res.json({ success: false, message: `Internal server error :${error}` });
+    }
+};
 
 export const deleteReservation = async (req, res) => {
     try {
         // console.log(req);
-        const { _Id } = req.params;
-        const reservation = await ReservationModel.findById( _Id );
+        const { _id } = req.params;
+        const reservation = await ReservationModel.findById( _id );
         // console.log(reservation);
         if (!reservation) {
             return res.json({ success: false, message: 'Reservation not found' });
@@ -219,9 +241,9 @@ export const deleteReservation = async (req, res) => {
         if (reservation.status == 'deleted') {
             return res.json({ success: false, message: 'Reservation not found' });
         }
-        reservation.updateOne({ status: 'deleted'})
-        reservation.save()
-        return res.json({ success: true, message: 'Reservation deleted successfully', result: reservation });
+        await reservation.updateOne({ status: 'deleted'})
+        await reservation.save()
+        return res.json({ success: true, message: 'Reservation deleted successfully' });
 
 
     } catch (error) {
