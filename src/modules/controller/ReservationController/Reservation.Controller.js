@@ -218,9 +218,9 @@ export const deleteReservation = async (req, res) => {
         }
         if (reservation.status == 'deleted') {
             return res.json({ success: false, message: 'Reservation not found' });
-            
         }
-        reservation.status = 'deleted';
+        reservation.updateOne({ status: 'deleted'})
+        reservation.save()
         return res.json({ success: true, message: 'Reservation deleted successfully', result: reservation });
 
 
