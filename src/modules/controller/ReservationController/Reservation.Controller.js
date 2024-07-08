@@ -163,6 +163,7 @@ export const createReservation = async (req, res) => {
                     <p>- Date: ${reservation.date}</p>
                     <p>- Time: ${reservation.timeStart} - ${reservation.timeEnd}</p>
                     <h3>first-come  , first-served</h3>
+                    <p>To show this Reservation or Delete it you can check this link : https://online-doc-app.vercel.app/Account/getAppointment/${reservation._id}</p>
                     <p>Thank you for choosing our services!</p>
                     Sincerely,
                     The Booking Team of Online Doctor app 
