@@ -194,6 +194,9 @@ export const getAllReservation = async (req, res) => {
         if (!reservations) {
             return res.json({ success: false, message: 'Reservation not found' });
         }
+        if (reservations.length === 0) {
+            return res.json({ success: false, message: 'Not found Reservation ' });
+        }
 
         const reservationsWithDoctorDataPromises = reservations.map(async (reservation) => {
             const doctor = await DocModel.findById(reservation.doctorId);
