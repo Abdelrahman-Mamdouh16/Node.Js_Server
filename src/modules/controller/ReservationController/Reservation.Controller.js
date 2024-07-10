@@ -195,7 +195,7 @@ export const getAllReservation = async (req, res) => {
             return res.json({ success: false, message: 'Reservation not found' });
         }
         if (reservations.length === 0) {
-            return res.json({ success: false, message: 'Not found Reservation ' });
+            return res.json({ success: false, message: 'Not found Reservation' });
         }
 
         const reservationsWithDoctorDataPromises = reservations.map(async (reservation) => {
