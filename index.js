@@ -8,6 +8,7 @@ import cors from 'cors';
 import productRouter from "./src/modules/routers/productsRouter/products.Router.js";
 import docRouter from "./src/modules/routers/doctorRouter/doctor.router.js";
 import ReservationRouter from "./src/modules/routers/ReservationRouter/Reservation.Router.js";
+import docOnTelehealthRouter from "./src/modules/routers/doctorOnTelehealthRouter/doctorOnTelehealth.router.js";
 // rest objects
 const app = express();
 const port = 8080;
@@ -27,6 +28,9 @@ app.use('/user', userRouter);
 app.use('/product', productRouter)
 // doctor Api
 app.use('/doctor', docRouter)
+// doctorOnTelehealth  Api
+app.use('/doctorOnTelehealth',docOnTelehealthRouter)
+
 // doctor Api
 app.use('/Reservation', ReservationRouter)
 
