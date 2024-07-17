@@ -88,7 +88,7 @@ export const createReservationOnSide = async (req, res) => {
             status,
             timeStart,
             timeEnd,
-            where: `${doctor.area}, ${doctor.city}`
+            where: `${doctor.area} , ${doctor.city}`
         });
 
         await reservation.save();
