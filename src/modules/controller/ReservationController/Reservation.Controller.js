@@ -267,7 +267,7 @@ export const checkReservationOnTelehealth = async (req, res) => {
     try {
         // console.log(req.body);
         const { doctorId, userId, date, timeStart, timeEnd, status, where } = req.body;
-        const reservation = await ReservationOnTelehealthModel.findOne({
+        const reservation = await ReservationModel.findOne({
             userId,
             doctorId,
             date,
