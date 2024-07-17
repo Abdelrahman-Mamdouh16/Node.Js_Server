@@ -311,7 +311,7 @@ export const createCheckoutSessionOnTelehealth = async (req, res, next) => {
                 },
             ],
             mode: 'payment',
-            success_url: `http://localhost:3000/reservation/Thank-You`,
+            success_url: `https://online-doc-app.vercel.app/reservation/Thank-You`,
             cancel_url: `https://online-doc-app.vercel.app/`,
             customer_email: user.email,
             client_reference_id: user._id
