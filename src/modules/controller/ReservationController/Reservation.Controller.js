@@ -10,7 +10,6 @@ const stripe = new Stripe('sk_test_51PbOY3AwDFvErNViudw9pFMxaUkt9FZbBBiQYwQfHupV
 
 export const checkReservationOnSide = async (req, res) => {
     try {
-        // console.log(req.body);
         const { doctorId, userId, date, timeStart, timeEnd, status } = req.body;
         const reservation = await ReservationModel.findOne({
             userId,
@@ -18,7 +17,8 @@ export const checkReservationOnSide = async (req, res) => {
             date,
             timeStart,
             timeEnd,
-            status
+            status,
+            where
         });
         // console.log(reservation);
         if (!reservation) {
@@ -88,6 +88,7 @@ export const createReservationOnSide = async (req, res) => {
             status,
             timeStart,
             timeEnd,
+            where: (doctor.area, doctor.city)
         });
 
         await reservation.save();
@@ -265,14 +266,15 @@ export const deleteReservation = async (req, res) => {
 export const checkReservationOnTelehealth = async (req, res) => {
     try {
         // console.log(req.body);
-        const { doctorId, userId, date, timeStart, timeEnd, status } = req.body;
+        const { doctorId, userId, date, timeStart, timeEnd, status, where } = req.body;
         const reservation = await ReservationOnTelehealthModel.findOne({
             userId,
             doctorId,
             date,
             timeStart,
             timeEnd,
-            status
+            status,
+            where
         });
         // console.log(reservation);
         if (!reservation) {
@@ -290,31 +292,32 @@ export const checkReservationOnTelehealth = async (req, res) => {
 
 export const createCheckoutSessionOnTelehealth = async (req, res, next) => {
     try {
-        const { doctor, userId } = req.body
+        const { doctorId, userId } = req.body
         const user = await userModel.findById(userId)
-        const Doctor = await DocModel.findById(doctor._id)
+        const Doctor = await DocModel.findById(doctorId)
 
         const session = await stripe.checkout.sessions.create({
             line_items: [
                 {
                     price_data: {
                         currency: 'egp',
-                        unit_amount: req.body.cost * 100,
+                        unit_amount: Doctor.cost * 100,
                         product_data: {
                             name: user.name,
-                            description: `Doctor : ${doctor.name} , On Telehealth Consultation`,
+                            description: `Doctor : ${Doctor.name} , On Telehealth Consultation`,
                         },
                     },
                     quantity: 1,
                 },
             ],
             mode: 'payment',
-            success_url: `https://online-doc-app.vercel.app/reservation/Thank-You`,
+            success_url: `http://localhost:3000/reservation/Thank-You`,
             cancel_url: `https://online-doc-app.vercel.app/`,
             customer_email: user.email,
             client_reference_id: user._id
 
         });
+        // return res.json({ success: true, message: 'The Checkout Session is created', result: session });
         if (!session)
             return res.json({ success: false, message: 'The Checkout Session not created' });
         else {
@@ -372,7 +375,7 @@ export const createReservationOnTelehealth = async (req, res) => {
 
         // Create reservation with sanitized data
         // const where
-        const reservation = new ReservationOnTelehealthModel({
+        const reservation = new ReservationModel({
             userId: user._id,
             doctorId: doctor._id,
             date,

@@ -9,6 +9,8 @@ const ReservationSchema = mongoose.Schema({
     status: { type: String, required: [true, "status is required"], default: 'pending' },
     timeStart: { type: String, required: [true, "timeStart is required"] },
     timeEnd: { type: String, required: [true, "timeEnd is required"] },
+    where: { type: String }
+
 }
     , {
         timestamps: true,
