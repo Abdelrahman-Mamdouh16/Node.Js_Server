@@ -1,4 +1,3 @@
-
 import doctorOnTelehealth from "../../../../DB/models/doctorModelOnTelehealth/doctorOnTelehealth.model.js";
 
 // addNewDoc
