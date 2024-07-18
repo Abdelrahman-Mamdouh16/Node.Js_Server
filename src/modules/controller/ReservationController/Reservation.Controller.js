@@ -11,7 +11,7 @@ const stripe = new Stripe('sk_test_51PbOY3AwDFvErNViudw9pFMxaUkt9FZbBBiQYwQfHupV
 export const checkReservationOnSide = async (req, res) => {
     try {
         const { doctorId, userId, date, timeStart, timeEnd, status, where } = req.body;
-        const reservation = await ReservationModel.find({
+        const reservation = await ReservationModel.findOne({
             userId,
             doctorId,
             date,
